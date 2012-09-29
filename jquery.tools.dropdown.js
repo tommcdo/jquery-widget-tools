@@ -24,7 +24,7 @@
 			'default': []
 		};
 
-		$.widget('ui.dropdown', {
+		$.widget('tools.dropdown', {
 
 			options: {
 				target: null,
