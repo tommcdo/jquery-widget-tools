@@ -1,0 +1,73 @@
+<html>
+	<head>
+		<style type="text/css">
+			#dropdowns {
+				margin: 0;
+				padding: 0;
+			}
+			#dropdowns li {
+				display: inline;
+			}
+			#dropdowns li a {
+				border: 1px solid black;
+				padding: 3px 10px;
+				margin: 2px;
+			}
+			#foo, #bar, #baz {
+				background: white;
+				margin: 0;
+				padding: 5px;
+				width: 300px;
+				height: 100px;
+			}
+			#foo {
+				color: green;
+				border: 2px solid green;
+			}
+			#bar {
+				color: blue;
+				border: 2px solid blue;
+			}
+			#baz {
+				color: red;
+				border: 2px solid red;
+			}
+		</style>
+		<script type="text/javascript" src="../jquery.min.js"></script>
+		<script type="text/javascript" src="../jquery.ui.core.min.js"></script>
+		<script type="text/javascript" src="../jquery.ui.widget.min.js"></script>
+		<script type="text/javascript" src="jquery.tools.dropdown.js"></script>
+		<script type="text/javascript">
+			(function($) {
+				// Affect all <a> elements in a menu using the href attribute for target selector
+				$(function() {
+					$("#dropdowns li a").dropdown({
+						position: 'below'
+					});
+				});
+			})(jQuery);
+		</script>
+	</head>
+	<body>
+		<ul id="dropdowns">
+			<li><a href="#foo">Foo</a></li>
+			<li><a href="#bar">Bar</a></li>
+			<li><a href="#baz">Baz</a></li>
+		</ul>
+		<div id="foo">
+			<p>This is the box called #foo</p>
+		</div>
+		<div id="bar">
+			<p>Bar! Bar! Bar! This is #bar</p>
+		</div>
+		<div id="baz">
+			<p>This is the #baz div</p>
+		</div>
+		<div>
+			<p>
+				This is a paragraph below it. Just some stuff,
+				hopefully it will all get covered up.
+			</p>
+		</div>
+	</body>
+</html>

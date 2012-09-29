@@ -29,33 +29,72 @@
 			options: {
 				target: null,
 				duration: 0,
-				group: 'default'
+				group: 'default',
+				position: null,
+				alignment: null
 			},
 
-			_create: function() {
+			init: function() {
 				this.properties = {
 					isOpen: false,
 					listIndex: null
 				};
+				if (this.options.target === null) {
+					this.options.target = this.element.attr('href');
+				}
+			},
+
+			_create: function() {
+
+				this.init();
 
 				var self = this,
 					o = this.options,
 					p = this.properties,
-					$el = $(this.element),
+					$el = this.element,
 					$t = $(this.options.target);
 
+				// Track this instance.
 				if ( ! (o.group in dropdownInstances)) {
 					dropdownInstances[o.group] = [];
 				}
 				p.listIndex = dropdownInstances[o.group].length;
 				dropdownInstances[o.group][p.listIndex] = self;
 
+				// Attach click event to document to close target.
 				$(document).click(function(e) {
 					self.close();
 				});
-				$t.hide().click(function(e) {
+
+				// Set up target element.
+				$t.hide();
+				if (o.position !== null) {
+					// Move target element to be near trigger element.
+					var x = $el.offset().left;
+					var y = $el.offset().top;
+					var width = $el.width();
+					var height = $el.height();
+					$t.offset({
+						left: x,
+						top: y + height + parseInt($el.css('paddingBottom'))
+					}).css({
+						position: 'absolute'
+					});
+				}
+				$t.click(function(e) {
+					// Do not close target element when it is clicked.
 					e.stopPropagation();
+					// Close all target elements from other groups.
+					$.each(dropdownInstances, function(group, instances) {
+						if (group != o.group) {
+							$.each(instances, function(i, dropdown) {
+								dropdown.close();
+							});
+						}
+					});
 				});
+
+				// Set up element.
 				$el.click(function(e) {
 					e.preventDefault();
 					$.each(dropdownInstances[o.group], function(i, dropdown) {
