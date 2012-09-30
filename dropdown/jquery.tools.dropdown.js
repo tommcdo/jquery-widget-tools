@@ -31,7 +31,7 @@
 				duration: 0,
 				group: 'default',
 				position: null,
-				alignment: null
+				anchor: null
 			},
 
 			init: function() {
@@ -69,17 +69,7 @@
 				// Set up target element.
 				$t.hide();
 				if (o.position !== null) {
-					// Move target element to be near trigger element.
-					var x = $el.offset().left;
-					var y = $el.offset().top;
-					var width = $el.width();
-					var height = $el.height();
-					$t.offset({
-						left: x,
-						top: y + height + parseInt($el.css('paddingBottom'))
-					}).css({
-						position: 'absolute'
-					});
+					self.setPosition();
 				}
 				$t.click(function(e) {
 					// Do not close target element when it is clicked.
@@ -111,10 +101,17 @@
 				});
 			},
 
+			_setOption: function(key, value) {
+				$.Widget.prototype._setOption.apply(this, arguments);
+				if (key == 'position' || key == 'anchor') {
+					this.setPosition();
+				}
+			},
+
 			open: function() {
 				var o = this.options,
 					p = this.properties,
-					$el = $(this.element),
+					$el = this.element,
 					$t = $(this.options.target);
 				$t.slideDown(o.duration, function() {
 					p.isOpen = true;
@@ -124,11 +121,63 @@
 			close: function() {
 				var o = this.options,
 					p = this.properties,
-					$el = $(this.element),
+					$el = this.element,
 					$t = $(this.options.target);
 				$t.slideUp(o.duration, function() {
 					p.isOpen = false;
 				});
+			},
+
+			setPosition: function() {
+				// Move target element to be near trigger element.
+				$(this.options.target).offset(this.offset()).css({
+					position: 'absolute'
+				});
+			},
+
+			offset: function() {
+				var o = this.options,
+				    $el = this.element,
+				    $t = $(this.options.target);
+				var x, y;
+				var d = $el.offset(),
+				    ew = $el.outerWidth(),
+				    eh = $el.outerHeight(),
+					tw = $t.outerWidth(),
+					th = $t.outerHeight();
+				var a = function(d, e, t) {
+					switch (o.anchor) {
+						case 'left': case 'top':
+							return d;
+						case 'outer-left': case 'outer-top':
+							return d + e;
+						case 'center': case 'middle':
+							return d - (t / 2) + (e / 2);
+						case 'right': case 'bottom':
+							return d - t + e;
+						case 'outer-right': case 'outer-bottom':
+							return d - t;
+					}
+				};
+				switch (o.position) {
+					case 'below':
+						x = a(d.left, ew, tw);
+						y = d.top + eh;
+						break;
+					case 'above':
+						x = a(d.left, ew, tw);
+						y = d.top - th;
+						break;
+					case 'left':
+						x = d.left - tw;
+						y = a(d.top, eh, th);
+						break;
+					case 'right':
+						x = d.left + ew;
+						y = a(d.top, eh, th);
+						break;
+				}
+				return { left: x, top: y };
 			},
 
 			destroy: function() {

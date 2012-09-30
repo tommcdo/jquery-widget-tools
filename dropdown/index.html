@@ -42,7 +42,31 @@
 				// Affect all <a> elements in a menu using the href attribute for target selector
 				$(function() {
 					$("#dropdowns li a").dropdown({
-						position: 'below'
+						position: 'below',
+						anchor: 'left'
+					});
+					$("#testlink").dropdown({
+						group: 'test',
+						position: 'below',
+						anchor: 'left'
+					});
+					$("#buttons input.vertical").hide();
+					$("#buttons input").click(function(e) {
+						e.stopPropagation();
+						var key = $(this).data('key');
+						var value = $(this).val();
+						console.log(key, value);
+						var options = {};
+						options[key] = value;
+						$("#testlink").dropdown('option', options);
+					});
+					$("#buttons input.a-horizontal").click(function() {
+						$("#buttons input.horizontal").show();
+						$("#buttons input.vertical").hide();
+					});
+					$("#buttons input.a-vertical").click(function() {
+						$("#buttons input.vertical").show();
+						$("#buttons input.horizontal").hide();
 					});
 				});
 			})(jQuery);
@@ -68,6 +92,38 @@
 				This is a paragraph below it. Just some stuff,
 				hopefully it will all get covered up.
 			</p>
+		</div>
+		<br /> <br /> <br /> <br /> <br /> <br /> <br />
+		<div style="text-align: center">
+			<a id="testlink" href="#test">Test</a>
+		</div>
+		<div id="test" style="border:1px solid black">
+			<p>here is some stuff.</p>
+			<p>It has two or three paragraphs.</p>
+			<p>Yeah. three.</p>
+		</div>
+		<br /><br /><br /><br /><br /><br /><br /><br />
+		<div id="buttons">
+			<fieldset>
+				<legend>position</legend>
+				<input class="a-horizontal" type="button" data-key="position" value="above" />
+				<input class="a-horizontal" type="button" data-key="position" value="below" />
+				<input class="a-vertical" type="button" data-key="position" value="left" />
+				<input class="a-vertical" type="button" data-key="position" value="right" />
+			</fieldset>
+			<fieldset>
+				<legend>anchor</legend>
+				<input class="horizontal" type="button" data-key="anchor" value="outer-left" />
+				<input class="horizontal" type="button" data-key="anchor" value="left" />
+				<input class="horizontal" type="button" data-key="anchor" value="center" />
+				<input class="horizontal" type="button" data-key="anchor" value="right" />
+				<input class="horizontal" type="button" data-key="anchor" value="outer-right" />
+				<input class="vertical" type="button" data-key="anchor" value="outer-top" />
+				<input class="vertical" type="button" data-key="anchor" value="top" />
+				<input class="vertical" type="button" data-key="anchor" value="middle" />
+				<input class="vertical" type="button" data-key="anchor" value="bottom" />
+				<input class="vertical" type="button" data-key="anchor" value="outer-bottom" />
+			</fieldset>
 		</div>
 	</body>
 </html>
