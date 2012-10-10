@@ -32,6 +32,38 @@
 				color: red;
 				border: 2px solid red;
 			}
+			#menu {
+				left: 0;
+				top: 100px;
+				float: left;
+				position: fixed;
+			}
+			#header {
+				width: 100%;
+				position: fixed;
+				top: 0;
+				background: white;
+			}
+			.demo-box {
+				margin-top: 100px;
+				margin-bottom: 1000px;
+				margin-left: 200px;
+			}
+			.demo-box h2 a {
+				padding-top: 100px;
+			}
+			.code-block  {
+				font-family: monospace;
+			}
+			.code-block .code-block {
+				padding-left: 4em;
+			}
+			.code-block > span {
+				display: block;
+			}
+			#test {
+				padding: 2em;
+			}
 		</style>
 		<script type="text/javascript" src="../jquery.min.js"></script>
 		<script type="text/javascript" src="../jquery.ui.core.min.js"></script>
@@ -55,9 +87,9 @@
 						e.stopPropagation();
 						var key = $(this).data('key');
 						var value = $(this).val();
-						console.log(key, value);
 						var options = {};
 						options[key] = value;
+						$("#option-"+key).html(value);
 						$("#testlink").dropdown('option', options);
 					});
 					$("#buttons input.a-horizontal").click(function() {
@@ -73,57 +105,75 @@
 		</script>
 	</head>
 	<body>
-		<ul id="dropdowns">
-			<li><a href="#foo">Foo</a></li>
-			<li><a href="#bar">Bar</a></li>
-			<li><a href="#baz">Baz</a></li>
+		<div id="header">
+			<h1>$.dropdown() Demos</h1>
+		</div>
+		<ul id="menu">
+			<li><a href="#menu-bar">Menu Bar</a></li>
+			<li><a href="#options-demo">Options Demo</a></li>
 		</ul>
-		<div id="foo">
-			<p>This is the box called #foo</p>
+		<div class="demo-box">
+			<h2><a name="menu-bar">Menu Bar</a></h2>
+			<ul id="dropdowns">
+				<li><a href="#foo">Foo</a></li>
+				<li><a href="#bar">Bar</a></li>
+				<li><a href="#baz">Baz</a></li>
+			</ul>
+			<div id="foo">
+				<p>This is the box called #foo</p>
+			</div>
+			<div id="bar">
+				<p>Bar! Bar! Bar! This is #bar</p>
+			</div>
+			<div id="baz">
+				<p>This is the #baz div</p>
+			</div>
+			<div>
+				<p>
+					This is a paragraph below it. Just some stuff,
+					hopefully it will all get covered up.
+				</p>
+			</div>
 		</div>
-		<div id="bar">
-			<p>Bar! Bar! Bar! This is #bar</p>
-		</div>
-		<div id="baz">
-			<p>This is the #baz div</p>
-		</div>
-		<div>
-			<p>
-				This is a paragraph below it. Just some stuff,
-				hopefully it will all get covered up.
-			</p>
-		</div>
-		<br /> <br /> <br /> <br /> <br /> <br /> <br />
-		<div style="text-align: center">
-			<a id="testlink" href="#test">Test</a>
-		</div>
-		<div id="test" style="border:1px solid black">
-			<p>here is some stuff.</p>
-			<p>It has two or three paragraphs.</p>
-			<p>Yeah. three.</p>
-		</div>
-		<br /><br /><br /><br /><br /><br /><br /><br />
-		<div id="buttons">
-			<fieldset>
-				<legend>position</legend>
-				<input class="a-horizontal" type="button" data-key="position" value="above" />
-				<input class="a-horizontal" type="button" data-key="position" value="below" />
-				<input class="a-vertical" type="button" data-key="position" value="left" />
-				<input class="a-vertical" type="button" data-key="position" value="right" />
-			</fieldset>
-			<fieldset>
-				<legend>anchor</legend>
-				<input class="horizontal" type="button" data-key="anchor" value="outer-left" />
-				<input class="horizontal" type="button" data-key="anchor" value="left" />
-				<input class="horizontal" type="button" data-key="anchor" value="center" />
-				<input class="horizontal" type="button" data-key="anchor" value="right" />
-				<input class="horizontal" type="button" data-key="anchor" value="outer-right" />
-				<input class="vertical" type="button" data-key="anchor" value="outer-top" />
-				<input class="vertical" type="button" data-key="anchor" value="top" />
-				<input class="vertical" type="button" data-key="anchor" value="middle" />
-				<input class="vertical" type="button" data-key="anchor" value="bottom" />
-				<input class="vertical" type="button" data-key="anchor" value="outer-bottom" />
-			</fieldset>
+		<div class="demo-box">
+			<h2><a name="options-demo">Options Demo</a></h2>
+			<br /> <br /> <br /> <br /> <br /> <br /> <br />
+			<div style="text-align: center">
+				<a id="testlink" href="#test">Test</a>
+			</div>
+			<div id="test" style="border:1px solid black">
+				<div class="code-block">
+					<span>$("a#testlink").dropdown({<span>
+					<div class="code-block">
+						<span>position: '<span id="option-position">below</span>',</span>
+						<span>anchor: '<span id="option-anchor">left</span>'</span>
+					</div>
+					<span>});</span>
+				</div>
+			</div>
+			<br /><br /><br /><br /><br /><br /><br /><br />
+			<div id="buttons">
+				<fieldset>
+					<legend>position</legend>
+					<input class="a-horizontal" type="button" data-key="position" value="above" />
+					<input class="a-horizontal" type="button" data-key="position" value="below" />
+					<input class="a-vertical" type="button" data-key="position" value="left" />
+					<input class="a-vertical" type="button" data-key="position" value="right" />
+				</fieldset>
+				<fieldset>
+					<legend>anchor</legend>
+					<input class="horizontal" type="button" data-key="anchor" value="outer-left" />
+					<input class="horizontal" type="button" data-key="anchor" value="left" />
+					<input class="horizontal" type="button" data-key="anchor" value="center" />
+					<input class="horizontal" type="button" data-key="anchor" value="right" />
+					<input class="horizontal" type="button" data-key="anchor" value="outer-right" />
+					<input class="vertical" type="button" data-key="anchor" value="outer-top" />
+					<input class="vertical" type="button" data-key="anchor" value="top" />
+					<input class="vertical" type="button" data-key="anchor" value="middle" />
+					<input class="vertical" type="button" data-key="anchor" value="bottom" />
+					<input class="vertical" type="button" data-key="anchor" value="outer-bottom" />
+				</fieldset>
+			</div>
 		</div>
 	</body>
 </html>
