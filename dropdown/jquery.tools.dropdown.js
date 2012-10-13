@@ -56,10 +56,10 @@
 			this.init();
 
 			var self = this,
-				o = this.options,
-				p = this.properties,
-				$el = this.element,
-				$t = $(this.options.target);
+			    o = this.options,
+			    p = this.properties,
+			    $el = this.element,
+			    $t = $(this.options.target);
 
 			// Track this instance.
 			if ( ! (o.group in dropdownInstances)) {
@@ -117,9 +117,9 @@
 
 		open: function() {
 			var o = this.options,
-				p = this.properties,
-				$el = this.element,
-				$t = $(this.options.target);
+			    p = this.properties,
+			    $el = this.element,
+			    $t = $(this.options.target);
 			$t.slideDown(o.duration, function() {
 				p.isOpen = true;
 			});
@@ -127,9 +127,9 @@
 
 		close: function() {
 			var o = this.options,
-				p = this.properties,
-				$el = this.element,
-				$t = $(this.options.target);
+			    p = this.properties,
+			    $el = this.element,
+			    $t = $(this.options.target);
 			$t.slideUp(o.duration, function() {
 				p.isOpen = false;
 			});
@@ -144,14 +144,14 @@
 
 		offset: function() {
 			var o = this.options,
-				$el = this.element,
-				$t = $(this.options.target);
+			    $el = this.element,
+			    $t = $(this.options.target);
 			var x, y;
 			var d = $el.offset(),
-				ew = $el.outerWidth(),
-				eh = $el.outerHeight(),
-				tw = $t.outerWidth(),
-				th = $t.outerHeight();
+			    ew = $el.outerWidth(),
+			    eh = $el.outerHeight(),
+			    tw = $t.outerWidth(),
+			    th = $t.outerHeight();
 			var a = function(d, e, t) {
 				switch (o.anchor) {
 					case 'left': case 'top':
