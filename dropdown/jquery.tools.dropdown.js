@@ -74,37 +74,43 @@
 			});
 
 			// Set up target element.
-			$t.hide();
-			if (o.position !== null) {
-				self.setPosition();
-			}
-			$t.click(function(e) {
-				// Do not close target element when it is clicked.
-				e.stopPropagation();
-				// Close all target elements from other groups.
-				$.each(dropdownInstances, function(group, instances) {
-					if (group != o.group) {
-						$.each(instances, function(i, dropdown) {
-							dropdown.close();
-						});
-					}
+			$t.ready(function() {
+				console.log(o.group, p.listIndex, "firing $t.ready");
+				$t.hide();
+				if (o.position !== null) {
+					self.setPosition();
+				}
+				$t.click(function(e) {
+					// Do not close target element when it is clicked.
+					e.stopPropagation();
+					// Close all target elements from other groups.
+					$.each(dropdownInstances, function(group, instances) {
+						if (group != o.group) {
+							$.each(instances, function(i, dropdown) {
+								dropdown.close();
+							});
+						}
+					});
 				});
 			});
 
 			// Set up element.
-			$el.click(function(e) {
-				e.preventDefault();
-				$.each(dropdownInstances[o.group], function(i, dropdown) {
-					if (i != p.listIndex) {
-						dropdown.close();
+			$el.ready(function() {
+				console.log(o.group, p.listIndex, "firing $el.ready");
+				$el.click(function(e) {
+					e.preventDefault();
+					$.each(dropdownInstances[o.group], function(i, dropdown) {
+						if (i != p.listIndex) {
+							dropdown.close();
+						}
+					});
+					if (p.isOpen) {
+						self.close();
+					} else {
+						self.open();
 					}
+					return false;
 				});
-				if (p.isOpen) {
-					self.close();
-				} else {
-					self.open();
-				}
-				return false;
 			});
 		},
 

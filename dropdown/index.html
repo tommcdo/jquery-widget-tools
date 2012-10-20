@@ -73,10 +73,14 @@
 			(function($) {
 				// Affect all <a> elements in a menu using the href attribute for target selector
 				$(function() {
+
+					// Menu Bar
 					$("#dropdowns li a").dropdown({
 						position: 'below',
 						anchor: 'left'
 					});
+
+					// Options Demo
 					$("#testlink").dropdown({
 						group: 'test',
 						position: 'below',
@@ -100,6 +104,27 @@
 						$("#buttons input.vertical").show();
 						$("#buttons input.horizontal").hide();
 					});
+
+					// Dynamic Load
+					(function() {
+						var clicked = false;
+						$("#load-button").click(function() {
+							console.log('click');
+							if ( ! clicked) {
+								clicked = true;
+								var $html = $('<a id="dynamic-link" href="#dynamic">Load</a>'
+											+ '<div id="dynamic">This stuff gets loaded dynamically</div>');
+								$(".demo-box.dynamic-load").append($html);
+								$("#dynamic").ready(function() {
+									$("#dynamic-link").dropdown({
+										position: 'right',
+										anchor: 'outer-top'
+									});
+								});
+							}
+						});
+					})();
+
 				});
 			})(jQuery);
 		</script>
@@ -111,8 +136,9 @@
 		<ul id="menu">
 			<li><a href="#menu-bar">Menu Bar</a></li>
 			<li><a href="#options-demo">Options Demo</a></li>
+			<li><a href="#dynamic-load">Dynamic Load</a></li>
 		</ul>
-		<div class="demo-box">
+		<div class="demo-box menu-bar">
 			<h2><a name="menu-bar">Menu Bar</a></h2>
 			<ul id="dropdowns">
 				<li><a href="#foo">Foo</a></li>
@@ -135,7 +161,7 @@
 				</p>
 			</div>
 		</div>
-		<div class="demo-box">
+		<div class="demo-box options-demo">
 			<h2><a name="options-demo">Options Demo</a></h2>
 			<br /> <br /> <br /> <br /> <br /> <br /> <br />
 			<div style="text-align: center">
@@ -174,6 +200,10 @@
 					<input class="vertical" type="button" data-key="anchor" value="outer-bottom" />
 				</fieldset>
 			</div>
+		</div>
+		<div class="demo-box dynamic-load">
+			<h2><a name="dynamic-load">Dynamic Load</a></h2>
+			<button id="load-button">Click Me!</button>
 		</div>
 	</body>
 </html>
